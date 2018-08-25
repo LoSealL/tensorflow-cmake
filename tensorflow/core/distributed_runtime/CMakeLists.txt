@@ -63,4 +63,3 @@ target_link_libraries(grpc_tensorflow_server PUBLIC
 )
 
 set_target_properties(tf_core_distributed_runtime PROPERTIES FOLDER "core")
-set_target_properties(grpc_tensorflow_server PROPERTIES FOLDER "core")

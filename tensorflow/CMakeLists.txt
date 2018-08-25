@@ -13,6 +13,77 @@
 # limitations under the License.
 # ==============================================================================
 
+function(RELATIVE_PROTOBUF_TEXT_GENERATE_CPP SRCS HDRS ROOT_DIR)
+  if(NOT ARGN)
+      message(SEND_ERROR "Error: RELATIVE_PROTOBUF_TEXT_GENERATE_CPP() called without any proto files")
+    return()
+  endif()
+
+  set(${SRCS})
+  set(${HDRS})
+  foreach(FIL ${ARGN})
+    set(ABS_FIL ${ROOT_DIR}/${FIL})
+    get_filename_component(FIL_WE ${FIL} NAME_WE)
+    get_filename_component(FIL_DIR ${ABS_FIL} PATH)
+    file(RELATIVE_PATH REL_DIR ${ROOT_DIR} ${FIL_DIR})
+
+    list(APPEND ${SRCS} "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb_text.cc")
+    list(APPEND ${HDRS} "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb_text.h")
+
+    add_custom_command(
+      OUTPUT "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb_text.cc"
+             "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb_text.h"
+      COMMAND ${PROTO_TEXT_EXE}
+      ARGS "${CMAKE_BINARY_DIR}/${REL_DIR}" ${REL_DIR} ${ABS_FIL} "${ROOT_DIR}/tensorflow/tools/proto_text/placeholder.txt"
+      DEPENDS ${ABS_FIL} ${PROTO_TEXT_EXE}
+      COMMENT "Running C++ protocol buffer text compiler (${PROTO_TEXT_EXE}) on ${FIL}"
+      VERBATIM)
+  endforeach()
+
+  set_source_files_properties(${${SRCS}} ${${HDRS}} PROPERTIES GENERATED TRUE)
+  set(${SRCS} ${${SRCS}} PARENT_SCOPE)
+  set(${HDRS} ${${HDRS}} PARENT_SCOPE)
+endfunction()
+
+if(NOT WIN32)
+  function(RELATIVE_PROTOBUF_GENERATE_GRPC_CPP SRCS HDRS ROOT_DIR)
+    if(NOT ARGN)
+      message(SEND_ERROR "Error: RELATIVE_PROTOBUF_GENERATE_GRPC_CPP() called without any proto files")
+      return()
+    endif()
+
+    set(${SRCS})
+    set(${HDRS})
+    foreach(FIL ${ARGN})
+      set(ABS_FIL ${ROOT_DIR}/${FIL})
+      get_filename_component(FIL_WE ${FIL} NAME_WE)
+      get_filename_component(FIL_DIR ${ABS_FIL} PATH)
+      file(RELATIVE_PATH REL_DIR ${ROOT_DIR} ${FIL_DIR})
+
+      list(APPEND ${SRCS} "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.grpc.pb.cc")
+      list(APPEND ${HDRS} "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.grpc.pb.h")
+      list(APPEND ${SRCS} "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb.cc")
+      list(APPEND ${HDRS} "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb.h")
+
+      add_custom_command(
+            OUTPUT "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.grpc.pb.cc"
+                   "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.grpc.pb.h"
+                   "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb.cc"
+                   "${CMAKE_BINARY_DIR}/${REL_DIR}/${FIL_WE}.pb.h"
+            COMMAND ${PROTOBUF_PROTOC_EXECUTABLE}
+            ARGS --grpc_out ${CMAKE_BINARY_DIR} --cpp_out ${CMAKE_BINARY_DIR}
+                 --plugin protoc-gen-grpc=${GRPC_BUILD}/grpc_cpp_plugin
+                 -I ${ROOT_DIR} ${ABS_FIL} -I ${PROTOBUF_INCLUDE_DIRS}
+            DEPENDS ${ABS_FIL} protobuf grpc
+            COMMENT "Running C++ protocol buffer grpc compiler on ${FIL}"
+            VERBATIM)
+    endforeach()
+
+    set_source_files_properties(${${SRCS}} ${${HDRS}} PROPERTIES GENERATED TRUE)
+    set(${SRCS} ${${SRCS}} PARENT_SCOPE)
+    set(${HDRS} ${${HDRS}} PARENT_SCOPE)
+  endfunction()
+endif()
 
 ########################################################
 # RELATIVE_PROTOBUF_GENERATE_CPP function

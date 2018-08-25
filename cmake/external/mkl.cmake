@@ -67,3 +67,6 @@ foreach(dll_file ${mkl_SHARED_LIBRARIES})
   add_custom_command(TARGET mkl_copy_shared_to_destination PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dll_file} ${mkl_BIN_DIRS})
 endforeach()
+
+set_target_properties(mkl_create_destination_dir PROPERTIES FOLDER "ExternalProjectTargets/mkl")
+set_target_properties(mkl_copy_shared_to_destination PROPERTIES FOLDER "ExternalProjectTargets/mkl")

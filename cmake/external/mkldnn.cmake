@@ -52,3 +52,7 @@ add_custom_target(mkldnn_copy_shared_to_destination DEPENDS mkldnn)
 
 add_custom_command(TARGET mkldnn_copy_shared_to_destination PRE_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${mkldnn_SHARED_LIBRARIES} ${mkl_BIN_DIRS})
+
+set_target_properties(mkldnn_copy_shared_to_destination PROPERTIES FOLDER "ExternalProjectTargets/mkldnn")
+set_target_properties(mkldnn_copy_shared_to_destination PROPERTIES FOLDER "ExternalProjectTargets/mkldnn")
+  

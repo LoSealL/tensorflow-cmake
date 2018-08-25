@@ -103,6 +103,7 @@ add_library(tf_cc_ops OBJECT
     "${CMAKE_CURRENT_SOURCE_DIR}/ops/const_op.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/ops/standard_ops.h"
 )
+set_source_files_properties(${tf_cc_ops_generated_files} PROPERTIES GENERATED TRUE)
 
 ########################################################
 # tf_cc_while_loop library
@@ -196,7 +197,7 @@ endfunction(AddUserOps)
 
 set(tf_cc_targets
     tf_cc_framework tf_cc_op_gen_main tf_cc_ops
-    tf_cc_while_loop tf_cc tf_extension_ops)
+    tf_cc_while_loop tf_cc)
 foreach(cc_target ${tf_cc_targets})
   set_target_properties(${cc_target} PROPERTIES FOLDER "cc")
 endforeach()
