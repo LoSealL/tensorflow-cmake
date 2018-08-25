@@ -66,7 +66,7 @@ OR your can try experimentally script `make.bat` to auto search required path
 > cmake --build . --config Release --target tf_python_build_pip_package
 ```
 
-Before doing this, your must edit `make.bat` and specify SWIG path and other options
+Before doing this, your must edit `make.bat` and your own options (such as GPU or MKL)
 
 
 
