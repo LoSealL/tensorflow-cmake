@@ -24,13 +24,13 @@ Compilers (tested by me):
 - VS 2015 (vc14), or
 - VS 2017 (vc15)***
 
-*Swig is pre-downloaded into `./tools`
+*Swig is pre-downloaded into `./_build`
 
 **You should the same version of numpy in __BUILD__ and __USE__
 
 ***When you use the newest VS 2017, CUDA compile check may fail, to resolve this, see [here](https://github.com/LoSealL/tensorflow-cmake/wiki/Resolve-CUDA-compile-check-error-in-CMAKE)
 
-###How to compile
+### How to compile
 
 Start into VS x64 prompt.
 
