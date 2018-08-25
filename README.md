@@ -55,11 +55,11 @@ Start into VS x64 prompt.
 > cmake --build . --config Release --target tf_python_build_pip_package
 ```
 
-Note: `^` is another line, GRPC must set `ON`, `WIN_CPU_SIMD_OPTIONS` can set to `OFF` if you don't know what's AVX. `SWIG_EXECUTABLE`, `PYTHON_EXECUTABLE` and `PYTHON_LIB` should specify to your own path.(Path to swig.exe, python.exe and python36.lib for instance)
+Note: `^` is another line, GRPC must set `ON`, `WIN_CPU_SIMD_OPTIONS` can set to `OFF` if you don't know what's AVX. `PYTHON_EXECUTABLE` and `PYTHON_LIB` should specify to your own path.(Path to python.exe and python36.lib for instance)
 
 
 
-OR your can try experimentally script `make.bat`
+OR your can try experimentally script `make.bat` to auto search required path
 
 ```bash
 > make && cd _build
