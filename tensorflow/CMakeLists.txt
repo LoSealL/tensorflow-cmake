@@ -279,7 +279,7 @@ add_library(tensorflow SHARED
 )
 
 target_link_libraries(tensorflow PRIVATE
-    ${tf_core_gpu_kernels_lib}
+    $<$<BOOL:${tensorflow_ENABLE_GPU}>:tf_core_gpu_kernels>
     ${tensorflow_EXTERNAL_LIBRARIES}
     tf_protos_cc
 )

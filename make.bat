@@ -23,13 +23,13 @@ set PYTHON_EXECUTABLE=
 REM To build tensorflow.dll or not
 set SHARED_LIB=ON
 REM To use GPU acceleration
-set GPU=OFF
+set GPU=ON
 REM To use CPU SIMD intrinsic, options can be /arch:AVX2, /arch:AVX, /arch:SSE2 or empty
 set WIN_CPU_SIMD=/arch:AVX2
 REM To use MKL or not
-set MKL=ON
+set MKL=OFF
 REM To use MKL_DNN, MKL DNN must be based on MKL
-set MKL_DNN=ON
+set MKL_DNN=OFF
 REM The other cmake variables are listed here
 set OTHER_CMAKE_ARGS=-Dtensorflow_BUILD_PYTHON_BINDINGS=ON ^
                      -Dtensorflow_DISABLE_EIGEN_FORCEINLINE=ON ^

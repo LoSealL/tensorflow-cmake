@@ -58,7 +58,7 @@ add_executable(grpc_tensorflow_server
 
 target_link_libraries(grpc_tensorflow_server PUBLIC
     tf_protos_cc
-    ${tf_core_gpu_kernels_lib}
+    $<$<BOOL:${tensorflow_ENABLE_GPU}>:tf_core_gpu_kernels>
     ${tensorflow_EXTERNAL_LIBRARIES}
 )
 

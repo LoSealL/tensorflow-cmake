@@ -31,7 +31,7 @@ add_executable(tf_label_image_example
 
 target_link_libraries(tf_label_image_example PUBLIC
     tf_protos_cc
-    ${tf_core_gpu_kernels_lib}
+    $<$<BOOL:${tensorflow_ENABLE_GPU}>:tf_core_gpu_kernels>
     ${tensorflow_EXTERNAL_LIBRARIES}
 )
 

@@ -559,7 +559,7 @@ target_include_directories(pywrap_tensorflow_internal PUBLIC
 )
 
 target_link_libraries(pywrap_tensorflow_internal PRIVATE
-    ${tf_core_gpu_kernels_lib}
+    $<$<BOOL:${tensorflow_ENABLE_GPU}>:tf_core_gpu_kernels>
     ${tensorflow_EXTERNAL_LIBRARIES}
     tf_protos_cc
     tf_python_protos_cc

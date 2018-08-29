@@ -655,6 +655,7 @@ if (tensorflow_ENABLE_GPU)
                         COMPILE_FLAGS "${TF_REGULAR_CXX_FLAGS}"
   )
   add_dependencies(${tf_core_gpu_kernels_lib} tf_core_cpu)
+  set_target_properties(${tf_core_gpu_kernels_lib} PROPERTIES FOLDER "core")
 endif()
 
 ########################################################
@@ -710,5 +711,5 @@ if(WIN32 AND tensorflow_ENABLE_GPU)
   list(APPEND tf_core_targets tf_core_kernels_cpu_only)
 endif()
 foreach(core_target ${tf_core_targets})
-  set_target_properties(${core_target} PROPERTIES FOLDER "core")    
+  set_target_properties(${core_target} PROPERTIES FOLDER "core")
 endforeach()
