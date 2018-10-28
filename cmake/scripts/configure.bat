@@ -51,20 +51,15 @@ REM Generating cmake projects.
 if /I not "%1"=="DEBUG" (
     if not exist _build mkdir _build
     pushd _build
-    cmake .. -A x64 -T host=x64 -DCMAKE_BUILD_TYPE=Release ^
-        -DPYTHON_EXECUTABLE=%PYTHON_PATH% ^
-        -DPYTHON_LIBRARIES=%PYTHON_LIB% ^
-        -Dtensorflow_ENABLE_GPU=%ENABLE_GPU% ^
-        -DCUDNN_HOME=%CUDA_HOME% ^
-        -Dtensorflow_BUILD_SHARED_LIB=ON ^
-        -Dtensorflow_WIN_CPU_SIMD_OPTIONS=/arch:AVX2 ^
-        -Dtensorflow_ENABLE_MKL_SUPPORT=OFF ^
-        -Dtensorflow_ENABLE_MKLDNN_SUPPORT=OFF ^
-        -Dtensorflow_BUILD_PYTHON_BINDINGS=ON ^
-        -Dtensorflow_DISABLE_EIGEN_FORCEINLINE=ON ^
-        -Dtensorflow_ENABLE_GRPC_SUPPORT=ON ^
-        -Dtensorflow_ENABLE_SSL_SUPPORT=ON ^
-        -Dtensorflow_ENABLE_SNAPPY_SUPPORT=ON
+    set CMAKE_ARGS=-DCMAKE_BUILD_TYPE=Release
+    set CMAKE_ARGS=%CMAKE_ARGS% -Dtensorflow_BUILD_PYTHON_BINDINGS=ON -DPYTHON_EXECUTABLE=%PYTHON_PATH% -DPYTHON_LIBRARIES=%PYTHON_LIB%
+    set CMAKE_ARGS=%CMAKE_ARGS% -Dtensorflow_ENABLE_GPU=%ENABLE_GPU% -DCUDNN_HOME=%CUDA_HOME%
+    set CMAKE_ARGS=%CMAKE_ARGS% -Dtensorflow_BUILD_SHARED_LIB=ON
+    set CMAKE_ARGS=%CMAKE_ARGS% -Dtensorflow_WIN_CPU_SIMD_OPTIONS=/arch:AVX2
+    set CMAKE_ARGS=%CMAKE_ARGS% -Dtensorflow_ENABLE_MKL_SUPPORT=OFF -Dtensorflow_ENABLE_MKLDNN_SUPPORT=OFF
+    set CMAKE_ARGS=%CMAKE_ARGS% -Dtensorflow_DISABLE_EIGEN_FORCEINLINE=ON -Dtensorflow_ENABLE_GRPC_SUPPORT=ON
+    set CMAKE_ARGS=%CMAKE_ARGS% -Dtensorflow_ENABLE_SSL_SUPPORT=ON -Dtensorflow_ENABLE_SNAPPY_SUPPORT=ON
+    cmake .. -A x64 -T host=x64 %CMAKE_ARGS%
     popd
 )
 if /I "%1"=="DEBUG" (
