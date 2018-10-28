@@ -1,5 +1,5 @@
 @echo off
-set ENABLE_GPU=OFF
+set ENABLE_GPU=ON
 
 :BEGIN
 REM Find python and python lib
