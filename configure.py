@@ -472,6 +472,43 @@ def check_bazel_version(min_version):
   return curr_version
 
 
+def check_cmake_version(min_version):
+  """Check installed cmake version is at least min_version.
+
+  Args:
+    min_version: string for minimum cmake version.
+
+  Returns:
+    The cmake version detected.
+  """
+  if which('cmake') is None:
+    print('Cannot find cmake. Please make sure cmake is in %PATH%.')
+    sys.exit(0)
+  curr_version = run_shell(['cmake', '--version'])
+
+  for line in curr_version.split('\n'):
+    if 'cmake version' in line:
+      curr_version = line.split(' ')[-1]
+      break
+  
+  min_version_int = convert_version_to_int(min_version)
+  curr_version_int = convert_version_to_int(curr_version)
+
+  # Check if current cmake version can be detected properly.
+  if not curr_version_int:
+    print('WARNING: current cmake installation is not a release version.')
+    print('Make sure you are running at least cmake %s' % min_version)
+    return curr_version
+
+  print('You have cmake %s installed.' % curr_version)
+
+  if curr_version_int < min_version_int:
+    print('Please upgrade your cmake installation to version %s or higher to '
+          'build TensorFlow!' % min_version)
+    sys.exit(0)
+  return curr_version
+
+
 def set_cc_opt_flags(environ_cp):
   """Set up architecture-dependent optimization flags.
 
@@ -1423,13 +1460,20 @@ def main():
                       type=str,
                       default=_TF_WORKSPACE_ROOT,
                       help="The absolute path to your active Bazel workspace.")
+  parser.add_argument("--cmake",
+                      type=bool,
+                      default=False,
+                      help="Specify cmake config rather than bazel.")
   args = parser.parse_args()
 
   # Make a copy of os.environ to be clear when functions and getting and setting
   # environment variables.
   environ_cp = dict(os.environ)
 
-  check_bazel_version('0.15.0')
+  if not args.cmake:
+    check_bazel_version('0.15.0')
+  else:
+    check_cmake_version('3.12.0')
 
   reset_tf_configure_bazelrc(args.workspace)
   cleanup_makefile()
