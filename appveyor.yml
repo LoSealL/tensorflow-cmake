@@ -12,6 +12,6 @@ build_script:
     
     cmake\scripts\configure.bat
     
-    cmake\scripts\make.bat
+    cmake\scripts\make.bat tf_python_build_pip_package
     
     popd
