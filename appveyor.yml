@@ -6,16 +6,11 @@ skip_tags: true
 image:
 - Visual Studio 2015
 - Visual Studio 2017
-init:
-- cmd: >-
-    pushd C:\projects\tensorflow-cmake
-
-    cmake\scripts\configure.bat
-    
-    popd
 build_script:
 - cmd: >-
     pushd C:\projects\tensorflow-cmake
+    
+    cmake\scripts\configure.bat
     
     cmake\scripts\make.bat
     
