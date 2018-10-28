@@ -9,10 +9,14 @@ image:
 init:
 - cmd: >-
     pushd C:\projects\tensorflow-cmake
+
     cmake\scripts\configure.bat
+    
     popd
 build_script:
 - cmd: >-
     pushd C:\projects\tensorflow-cmake
+    
     cmake\scripts\make.bat
+    
     popd
