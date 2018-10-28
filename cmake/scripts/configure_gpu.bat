@@ -18,6 +18,7 @@ for /F "tokens=1,2 delims= " %%i in ('python -c %SHOW_VER_INT%') do (
 set PYTHON_LIB=%PYTHON_PATH:~0,-10%libs\python%PYTHON_VER%.lib
 
 REM Check python requirements
+if /I "%1"=="DEBUG" echo Installing python requirements.
 for /F "skip=2 tokens=1,2 delims= " %%i in ('pip list') do (
     if "%%i"=="numpy" set HAS_NUMPY=1
     if "%%i"=="absl-py" set HAS_ABSL=1
@@ -35,6 +36,7 @@ if not "%HAS_WHEEL%"=="1" pip install wheel
 
 REM Find CUDA runtime.
 if %ENABLE_GPU%=="ON" (
+    if /I "%1"=="DEBUG" echo Finding CUDA runtimes.
     for /F %%i in ('where cudart64*.dll') do (
         set CUDA_RT=%%~ni
         set CUDA_VER=%CUDA_RT:~9,2%
@@ -44,6 +46,7 @@ if %ENABLE_GPU%=="ON" (
 )
 
 :GENERATE
+if /I "%1"=="DEBUG" echo Generating cmake projects.
 REM Generating cmake projects.
 if /I not "%1"=="DEBUG" (
     if not exist _build mkdir _build
