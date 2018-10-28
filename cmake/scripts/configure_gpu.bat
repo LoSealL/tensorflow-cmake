@@ -11,7 +11,7 @@ if %errorlevel% neq 0 (
 for /F %%i in ('python -c "import sys; print(sys.executable)"') do (
     set PYTHON_PATH=%%i
 )
-set SHOW_VER_INT="import sys; print(sys.version_info.major, sys.version_info.minor)"
+set SHOW_VER_INT="import sys; print('{} {}'.format(sys.version_info.major, sys.version_info.minor))"
 for /F "tokens=1,2 delims= " %%i in ('python -c %SHOW_VER_INT%') do (
     set PYTHON_VER=%%i%%j
 )
