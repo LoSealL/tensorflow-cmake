@@ -45,17 +45,10 @@ if %ENABLE_GPU%=="ON" (
     )
 )
 
-echo PYTHON_PATH=%PYTHON_PATH%
-echo PYTHON_VER=%PYTHON_VER%
-echo PYTHON_LIB=%PYTHON_LIB%
-echo CUDA_HOME=%CUDA_HOME%
-echo CUDA_RT=%CUDA_RT%
-echo CUDA_VER=%CUDA_VER%
-
 :GENERATE
-if /I "%1"=="DEBUG" echo Generating cmake projects.
 REM Generating cmake projects.
 if /I not "%1"=="DEBUG" (
+    if /I "%1"=="DEBUG" echo Generating cmake projects.
     if not exist _build mkdir _build
     pushd _build
     set CMAKE_ARGS=-DCMAKE_BUILD_TYPE=Release
