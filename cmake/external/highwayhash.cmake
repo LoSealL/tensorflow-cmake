@@ -52,8 +52,10 @@ ExternalProject_Add(highwayhash
 )
 
 file(GLOB highwayhash_cp_headers ${highwayhash_INSTALL}/include/*.h)
+foreach(_hdr ${highwayhash_cp_headers})
 add_custom_command(TARGET highwayhash_copy_headers_to_destination PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${highwayhash_cp_headers} ${highwayhash_INCLUDE_DIR}/highwayhash)
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_hdr} ${highwayhash_INCLUDE_DIR}/highwayhash)
+endforeach()
 
 set_target_properties(highwayhash_create_destination_dir PROPERTIES FOLDER "ExternalProjectTargets/highwayhash")
 set_target_properties(highwayhash_copy_headers_to_destination PROPERTIES FOLDER "ExternalProjectTargets/highwayhash")

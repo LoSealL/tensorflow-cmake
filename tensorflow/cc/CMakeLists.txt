@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+
 ########################################################
 # tf_cc_framework library
 ########################################################
@@ -162,7 +163,7 @@ function(AddUserOps)
   endif()
   # create shared library from source and cuda obj
   add_library(${_AT_TARGET} SHARED ${_AT_SOURCES} ${gpu_lib})
-  target_link_libraries(${_AT_TARGET} ${pywrap_tensorflow_lib})
+  target_link_libraries(${_AT_TARGET} pywrap_tensorflow_internal)
   if (tensorflow_ENABLE_GPU AND _AT_GPUSOURCES)
       # some ops call out to cuda directly; need to link libs for the cuda dlls
       target_link_libraries(${_AT_TARGET} ${CUDA_LIBRARIES})
